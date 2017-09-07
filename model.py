@@ -35,7 +35,6 @@ class FaceKeypointsCaptureModel(object):
         preds = self.loaded_model.predict(img) % 96
 
         pred_dict = dict([(point, val) for point, val in zip(FaceKeypointsCaptureModel.COLUMNS, preds[0])])
-        print(pred_dict)
 
         return preds, pred_dict
 
@@ -52,7 +51,7 @@ if __name__ == '__main__':
     
     import matplotlib.pyplot as plt
     import cv2
-    img = cv2.cvtColor(cv2.imread('trial1.jpg'), cv2.COLOR_BGR2GRAY)
+    img = cv2.cvtColor(cv2.imread('dataset/trial1.jpg'), cv2.COLOR_BGR2GRAY)
     img1 = cv2.resize(img, (96, 96))
     img1 = img1[np.newaxis, :, :, np.newaxis]
     
