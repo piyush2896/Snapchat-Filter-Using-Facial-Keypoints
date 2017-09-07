@@ -32,18 +32,19 @@ class FaceKeypointsCaptureModel(object):
         self.loaded_model.summary()
 
     def predict_points(self, img):
-        preds = self.loaded_model.predict(img) % 96
+        self.preds = self.loaded_model.predict(img) % 96
 
-        pred_dict = dict([(point, val) for point, val in zip(FaceKeypointsCaptureModel.COLUMNS, preds[0])])
+        self.pred_dict = dict([(point, val) for point, val in zip(FaceKeypointsCaptureModel.COLUMNS, self.preds[0])])
 
-        return preds, pred_dict
+        return self.preds, self.pred_dict
 
+    def scale_prediction(self, out_range=(-1, 1)):
+        range_ = [0, 96]
+        self.preds = (self.preds - range_[0]) / (range_[1] - range_[0])
+        self.preds = (self.preds * (out_range[1] - out_range[0])) + out_range[0]
 
-def scale(data, out_range=(-1, 1)):
-    range_ = [0, 96]
-    normal_data = (data - range_[0]) / (range_[1] - range_[0])
-
-    return (normal_data * (out_range[1] - out_range[0])) + out_range[0]
+        self.pred_dict = dict([(point, val) for point, val in zip(FaceKeypointsCaptureModel.COLUMNS, self.preds[0])])
+        return self.preds, self.pred_dict
 
 
 if __name__ == '__main__':
@@ -58,7 +59,7 @@ if __name__ == '__main__':
     print(img1.shape)
 
     pts, pts_dict = model.predict_points(img1)
-    pts1 = scale(pts[0], (0, 200))
+    pts1, pred_dict1 = model.scale_prediction((0, 200))
 
     plt.figure(0)
     plt.subplot(1, 2, 1)
