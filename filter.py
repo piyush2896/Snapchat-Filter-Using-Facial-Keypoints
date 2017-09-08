@@ -26,9 +26,11 @@ def apply_filter(frame, pts_dict):
 
 
 def apply_filter_eye_helper(frame, x, y, radius):
-    filter_img = cv2.resize(cv2.imread("filters/scary_eye.png"),
-                            (2 * radius, 2 * radius))
-    frame[y-radius:y+radius, x-radius:x+radius, :] = filter_img
+    radius_half = radius // 2
+    filter_img = cv2.resize(cv2.imread("filters/sharingan.png"),
+                            (2*radius_half, 2*radius_half))
+
+    frame[y-radius_half:y+radius_half, x-radius_half:x+radius_half, :] = filter_img
     return frame
 
 def distance(pt1, pt2):
