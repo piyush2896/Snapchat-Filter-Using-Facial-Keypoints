@@ -1,5 +1,5 @@
 # Snapchat-Filter-Using-Facial-Keypoints
-This Repository contains my project to apply snapchat filters to a camera feed. **Not the best filters in the world - Just and Experiment**
+This Repository contains my project to apply snapchat filters to a camera feed. **Not the best filters in the world - Just an Experiment**
 
 The model is trained using code in [this repository](https://github.com/piyush2896/Facial-Keypoints-Detection).
 
