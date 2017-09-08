@@ -18,15 +18,17 @@ def apply_filter(frame, pts_dict):
     radius_right = distance((right_eye_center_x, right_eye_center_y),
                            (right_eye_inner_corner_x, right_eye_inner_corner_y))
     
-    frame = apply_filter_helper(frame, left_eye_center_x,
-                                left_eye_center_y, int(radius_left))
-    frame = apply_filter_helper(frame, right_eye_center_x,
-                                right_eye_center_y, int(radius_right))
+    frame = apply_filter_eye_helper(frame, int(left_eye_center_x),
+                                int(left_eye_center_y), int(radius_left))
+    frame = apply_filter_eye_helper(frame, int(right_eye_center_x),
+                                int(right_eye_center_y), int(radius_right))
     return frame
 
 
-def apply_filter_helper(frame, x, y, radius):
-    cv2.circle(frame, (x, y), radius, (255, 0, 0), 5)
+def apply_filter_eye_helper(frame, x, y, radius):
+    filter_img = cv2.resize(cv2.imread("filters/scary_eye.png"),
+                            (2 * radius, 2 * radius))
+    frame[y-radius:y+radius, x-radius:x+radius, :] = filter_img
     return frame
 
 def distance(pt1, pt2):
