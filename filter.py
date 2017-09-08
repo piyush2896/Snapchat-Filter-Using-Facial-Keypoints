@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from model import FaceKeypointsCaptureModel
 
 
@@ -37,7 +38,6 @@ if __name__ == '__main__':
     model = FaceKeypointsCaptureModel("face_model.json", "face_model.h5")
     
     import matplotlib.pyplot as plt
-    import numpy as np
     import cv2
     img = cv2.cvtColor(cv2.imread('dataset/trial1.jpg'), cv2.COLOR_BGR2GRAY)
     img1 = cv2.resize(img, (96, 96))
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     print(img1.shape)
 
     pts, pts_dict = model.predict_points(img1)
-    pts1, pred_dict1 = model.scale_prediction((0, 200))
+    pts1, pred_dict1 = model.scale_prediction((0, 200), (0, 200))
 
     fr = apply_filter(img, pred_dict1)
 

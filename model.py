@@ -38,10 +38,13 @@ class FaceKeypointsCaptureModel(object):
 
         return self.preds, self.pred_dict
 
-    def scale_prediction(self, out_range=(-1, 1)):
+    def scale_prediction(self, out_range_x=(-1, 1), out_range_y=(-1, 1)):
         range_ = [0, 96]
-        self.preds = (self.preds - range_[0]) / (range_[1] - range_[0])
-        self.preds = (self.preds * (out_range[1] - out_range[0])) + out_range[0]
+        self.preds = ((self.preds - range_[0]) / (range_[1] - range_[0]))
+        self.preds[:, range(0, 30, 2)] = ((self.preds[:, range(0, 30, 2)] *
+                                         (out_range_x[1] - out_range_x[0])) + out_range_x[0])
+        self.preds[:, range(1, 30, 2)] = ((self.preds[:, range(1, 30, 2)] *
+                                         (out_range_y[1] - out_range_y[0])) + out_range_y[0])
 
         self.pred_dict = dict([(point, val) for point, val in zip(FaceKeypointsCaptureModel.COLUMNS, self.preds[0])])
         return self.preds, self.pred_dict
