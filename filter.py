@@ -26,11 +26,15 @@ def apply_filter(frame, pts_dict):
 
 
 def apply_filter_eye_helper(frame, x, y, radius):
-    radius_half = radius // 2
+    adjust_rad = radius - 3
     filter_img = cv2.resize(cv2.imread("filters/sharingan.png"),
-                            (2*radius_half, 2*radius_half))
+                            (2*adjust_rad, 2*adjust_rad))
 
-    frame[y-radius_half:y+radius_half, x-radius_half:x+radius_half, :] = filter_img
+    slice = frame[y-adjust_rad:y+adjust_rad, x-adjust_rad:x+adjust_rad, :]
+    for i in range(slice.shape[2]):
+        for j in range(slice.shape[1]):
+            slice[filter_img[:, j, i] != 0, j, i] = filter_img[filter_img[:, j, i]!=0, j, i]
+    frame[y-adjust_rad:y+adjust_rad, x-adjust_rad:x+adjust_rad, :] = slice
     return frame
 
 def distance(pt1, pt2):

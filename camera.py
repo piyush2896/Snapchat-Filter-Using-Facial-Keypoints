@@ -12,7 +12,7 @@ def __get_data__():
     __get_data__: Gets data from the VideoCapture object and classifies them
     to a face or no face. 
     
-    returns: tuple (faces in image, frame read)
+    returns: tuple (faces in image, frame read, grayscale frame)
     """
     _, fr = rgb.read()
     gray = cv2.cvtColor(fr, cv2.COLOR_BGR2GRAY)
@@ -37,11 +37,9 @@ def start_app(cnn):
             pred, pred_dict = cnn.scale_prediction((x, fc.shape[1]+x), (y, fc.shape[0]+y))
 
             fr = apply_filter(fr, pred_dict)
-            #cv2.rectangle(fr, (x, y), (x+w, y+h), (255, 0, 0))
-            #cv2.putText(fr, labels[int(pred)], (x, y), cv2.FONT_HERSHEY_COMPLEX, 2, 255)
         if cv2.waitKey(1) == 27:
             break
-        cv2.imshow('rgb', fr)
+        cv2.imshow('Filter', fr)
     cv2.destroyAllWindows()
 
 
