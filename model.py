@@ -65,7 +65,7 @@ if __name__ == '__main__':
     pts1, pred_dict1 = model.scale_prediction((0, 200))
 
     plt.figure(0)
-    plt.subplot(1, 2, 1)
+    plt.subplot(2, 2, 1)
     plt.imshow(img, cmap='gray', interpolation=None)
     plt.scatter(pts1[range(0, 30, 2)], pts1[range(1, 30, 2)], marker='x')
 
